@@ -17,6 +17,9 @@ package com.netflix.servo.util;
 
 import java.util.Arrays;
 
+/**
+ * Utility methods for dealing with objects.
+ */
 public final class Objects {
   /**
    * Generates a hash code for a sequence of input values.

@@ -57,33 +57,44 @@ public final class HttpHelper {
 
   private final RxHttp rxHttp;
 
+  /**
+   * An HTTP Response. For internal use of servo only.
+   */
   public static class Response {
     int status;
     byte[] body;
     HttpResponseHeaders headers;
 
+    /** Get the HTTP status code. */
     public int getStatus() {
       return status;
     }
 
+    /** Get the body of the response as a byte array. */
     public byte[] getBody() {
       return body;
     }
 
+    /** Get the rxnetty {@link HttpResponseHeaders} for this response. */
     public HttpResponseHeaders getHeaders() {
       return headers;
     }
   }
 
+  /**
+   * Create a new HttpHelper using the given {@link RxHttp} instance.
+   */
   @Inject
   public HttpHelper(RxHttp rxHttp) {
     this.rxHttp = rxHttp;
   }
 
+  /** Get the underlying {@link RxHttp} instance. */
   public RxHttp getRxHttp() {
     return rxHttp;
   }
 
+  /** POST to the given URI the passed {@link JsonPayload}. */
   public Observable<HttpClientResponse<ByteBuf>>
   postSmile(String uriStr, JsonPayload payload) {
     byte[] entity = toByteArray(SMILE_FACTORY, payload);
@@ -121,6 +132,11 @@ public final class HttpHelper {
     }
   }
 
+  /**
+   * Attempt to send all the batches totalling numMetrics in the allowed time.
+   *
+   * @return The total number of metrics sent.
+   */
   public int sendAll(Iterable<Observable<Integer>> batches, final int numMetrics, long timeoutMillis) {
     final AtomicBoolean err = new AtomicBoolean(false);
     final AtomicInteger updated = new AtomicInteger(0);
@@ -166,6 +182,9 @@ public final class HttpHelper {
     return updated.get();
   }
 
+  /**
+   * Perform an HTTP get in the allowed time.
+   */
   public Response get(HttpClientRequest<ByteBuf> req, long timeout, TimeUnit timeUnit) {
     final String uri = req.getUri();
     final Response result = new Response();

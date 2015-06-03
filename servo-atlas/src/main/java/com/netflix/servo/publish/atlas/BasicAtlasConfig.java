@@ -15,6 +15,10 @@
  */
 package com.netflix.servo.publish.atlas;
 
+/**
+ * A simple implementation of {@link ServoAtlasConfig} that uses system properties to get
+ * values.
+ */
 public class BasicAtlasConfig implements ServoAtlasConfig {
   @Override
   public String getAtlasUri() {

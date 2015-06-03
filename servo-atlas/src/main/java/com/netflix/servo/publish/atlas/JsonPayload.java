@@ -23,5 +23,7 @@ import java.io.IOException;
  * payload that can be serialized to json.
  */
 public interface JsonPayload {
+
+  /** Serialize the current entity to JSON using the given generator. */
   void toJson(JsonGenerator gen) throws IOException;
 }

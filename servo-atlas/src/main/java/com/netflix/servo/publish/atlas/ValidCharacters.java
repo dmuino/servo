@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * Utility class to deal with rewriting keys/values to the valid character set.
+ * Utility class to deal with rewriting keys/values to the character set accepted by atlas.
  */
 public final class ValidCharacters {
   /**
