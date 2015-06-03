@@ -31,6 +31,8 @@ import com.netflix.servo.tag.BasicTag;
 import com.netflix.servo.tag.BasicTagList;
 import com.netflix.servo.tag.Tag;
 import com.netflix.servo.tag.TagList;
+import iep.com.netflix.iep.http.BasicServerRegistry;
+import iep.com.netflix.iep.http.RxHttp;
 import iep.io.reactivex.netty.protocol.http.client.HttpClientResponse;
 import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
@@ -77,16 +79,18 @@ public class AtlasMetricObserver implements MetricObserver {
     }
   });
 
-  public AtlasMetricObserver(HttpHelper httpHelper,
-                          ServoAtlasConfig config,
-                          TagList commonTags) {
-    this(httpHelper, config, commonTags, 0);
+  public AtlasMetricObserver(ServoAtlasConfig config, TagList commonTags) {
+    this(config, commonTags, 0);
   }
 
-  public AtlasMetricObserver(HttpHelper httpHelper,
-                          ServoAtlasConfig config,
-                          TagList commonTags,
-                          int pollerIdx) {
+  public AtlasMetricObserver(ServoAtlasConfig config, TagList commonTags, int pollerIdx) {
+    this(config, commonTags, pollerIdx, new HttpHelper(new RxHttp(new BasicServerRegistry())));
+  }
+
+  public AtlasMetricObserver(ServoAtlasConfig config,
+                             TagList commonTags,
+                             int pollerIdx,
+                             HttpHelper httpHelper) {
     this.httpHelper = httpHelper;
     this.config = config;
     this.stepMs = Pollers.getPollingIntervals().get(pollerIdx);
